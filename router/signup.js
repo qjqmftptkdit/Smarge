@@ -9,9 +9,10 @@ module.exports = function(app)
         if(req.method == 'POST')
         {
             var result = (new (require('../func/checkSignup'))(req.body)).check() ; // 입력값 확인
-            if (result == "OK") 
+            if (result == "OK") // 검증을 통과함 
             {
-                console.log("OK");
+                (new (require('../func/sqlManager'))).saveNewAccount(req.body); 
+                // 데이터베이스에 새로운 계정을 추가시킨다.
             }
             else 
             {

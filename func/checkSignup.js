@@ -17,10 +17,7 @@ module.exports = class {
     // 전부 채워졌는지 확인한다.
     _check_isAllFilled(body)
     {   
-        if(body && body.username && body.email && body.password && body.password_check )
-            return true;
-        else
-            return false;
+        return (body && body.username && body.email && body.password && body.password_check );
     }
 
     // 유저이름 유효성 검사
