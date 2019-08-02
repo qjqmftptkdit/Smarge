@@ -1,10 +1,11 @@
 module.exports = class {
     constructor()
     {
+        this._config = require("./config");
         // 데이터베이스 설정
-        this._host = 'localhost';
-        this._user = 'root';
-        this._password = 'root';
+        this._host = this._config.host;
+        this._user = this._config.user;
+        this._password = this._config.password;
         this._database = 'smarge'; // 디폴트 값
 
         // 데이터베이스 연결 초기화

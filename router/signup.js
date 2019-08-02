@@ -44,8 +44,8 @@ module.exports = function(app)
             <form action"/signup" method="POST">
                 <input class="in" name="username" type="text" placeholder="유저이름"> 
                 <input class="in" name="email" type="text" placeholder="이메일"> 
-                <input class="in" name="password" type="text" placeholder="비밀번호"> 
-                <input class="in" name="password_check" type="text" placeholder="비밀번호확인">  
+                <input class="in" name="password" type="password" placeholder="비밀번호"> 
+                <input class="in" name="password_check" type="password" placeholder="비밀번호확인">  
                 ${log}
             </form>
     </div>
