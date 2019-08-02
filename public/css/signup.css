@@ -3,7 +3,7 @@ html{
 }
 #logo {
     position: relative;
-    left: 35%;
+    left: 700px;
     top: 50px;
     float: left;
 }
@@ -12,7 +12,7 @@ html{
     width: 500px; height: 380px;
     background-image: url('/source/bg1.png');
     position: relative;
-    left:9%;
+    left:200px;
     top: 300px;
     border-radius: 40px / 40px;
     float: left;
