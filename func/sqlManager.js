@@ -21,8 +21,11 @@ module.exports = class {
     // 데이터베이스에 새로운 계정을 추가시킨다.
     saveNewAccount(body)
     {
-        this._connection.query("INSERT INTO accounts(user_name, user_email, user_password, user_checkCode) VALUES (?, ?, ?, ?);",
-        [body.username, body.email, body.password, body.checkCode]);
+        var _connection = this._connection;
+        require('crypto').pbkdf2(body.password, body.salt, 100000, 64, 'sha512', function(err, key){
+            _connection.query("INSERT INTO accounts(user_name, user_email, user_password, user_checkCode, user_salt) VALUES (?, ?, ?, ?, ?);",
+            [body.username, body.email, key.join(''), body.checkCode, body.salt]);
+        });
     }
 
     // 유저이름 중복여부 확인
@@ -42,7 +45,7 @@ module.exports = class {
     // 이메일을 인증시킨다.
     verifyEmail(checkCode)
     {
-        this.result = this._connection.query("UPDATE accounts SET user_available = 1 WHERE user_checkCode = ?;",[checkCode]);
-        return (this.result.changedRows == 1);
+        this._result = this._connection.query("UPDATE accounts SET user_available = 1 WHERE user_checkCode = ?;",[checkCode]);
+        return (this._result.changedRows == 1);
     }
 }
