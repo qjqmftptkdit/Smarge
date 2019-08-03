@@ -20,7 +20,9 @@ module.exports = function(app)
                 // 이메일 인증 난수
                 req.body.checkCode = getSecureRandomVal();
                 // 데이터베이스에 새로운 계정을 추가시킨다.
-                (new (require('../func/sqlManager'))).saveNewAccount(req.body); 
+                (new (require('../func/sqlManager'))).saveNewAccount(req.body);
+                // 이메일 인증 메일을 전송시킨다.
+                (new (require('../func/emailValidation'))).sendValidationEmail(req.body.checkCode, req.body.email);
 
                 // 이메일 인증
                 log = '';

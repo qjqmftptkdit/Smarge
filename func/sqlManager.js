@@ -38,4 +38,11 @@ module.exports = class {
         this._result = this._connection.query("SELECT user_id FROM accounts WHERE user_email=?;",[email]);
         return (this._result.length != 0);
     }
+
+    // 이메일을 인증시킨다.
+    verifyEmail(checkCode)
+    {
+        this.result = this._connection.query("UPDATE accounts SET user_available = 1 WHERE user_checkCode = ?;",[checkCode]);
+        return (this.result.changedRows == 1);
+    }
 }
