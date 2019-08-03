@@ -48,4 +48,38 @@ module.exports = class {
         this._result = this._connection.query("UPDATE accounts SET user_available = 1 WHERE user_checkCode = ?;",[checkCode]);
         return (this._result.changedRows == 1);
     }
+
+    // 로그인 정보가 일치하는지 확인한다.
+    verifyLogin(email, password, res)
+    {
+        // salt 얻기
+        this._result = this._connection.query("SELECT user_salt FROM accounts WHERE user_email=?;",[email]);
+        this.salt = this._result[0].user_salt;
+
+        // 데이터베이스에 존재하는지 확인
+        var _connection = this._connection;
+        require('crypto').pbkdf2(password, this.salt, 100000, 64, 'sha512', function(err, key){
+            var result = _connection.query("SELECT user_available FROM accounts WHERE user_email=? AND user_password=?;",
+            [email, key.join('')]);
+
+            if(result.length != 0)
+            {
+                if(result[0].user_available == 0) // 이메일 오류 발생
+                {
+                    res.redirect("/login?error=2");
+                    return ;
+                }
+                else // 로그인 검증 통과
+                {
+                    console.log("PASS");
+                }
+            }
+            else // 패스워드가 일치하지 않음
+            {
+                res.redirect("/login?error=1");
+                return ;
+            }
+
+        });
+    }
 }

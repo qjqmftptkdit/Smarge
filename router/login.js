@@ -12,15 +12,31 @@ module.exports = function(app)
             var result = (new (require('../func/checkLogin'))(req.body)).check() ; // 입력값 확인
             if (result == "OK") // 검증을 통과함 
             {
-                console.log("OK");
-                res.redirect("/");
-                return;
+                // 로그인 검증
+                (new (require('../func/sqlManager'))).verifyLogin(req.body.email, req.body.password, res);
+                return ;
             }
             else
             {
                 log = `<p style="color: red; position: relative; top:50px;"><STRONG>>${result}<</STRONG></p> 
                 <br><input id="signinButton" type="submit" value="로그인" style="left:200px; top:49px;"> `
             }
+        }
+
+        // 추가적인 에러처리
+        if(req.query.error)
+        {
+            result = '';
+            if(req.query.error == 1)
+            {
+                result = "패스워드가 일치하지 않습니다 !";
+            }
+            if(req.query.error == 2)
+            {
+                result = "인증되지 않은 이메일 입니다 !";
+            }
+            log = `<p style="color: red; position: relative; top:50px;"><STRONG>>${result}<</STRONG></p> 
+            <br><input id="signinButton" type="submit" value="로그인" style="left:200px; top:49px;"> `
         }
 
         var lis = `

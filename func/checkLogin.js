@@ -10,7 +10,8 @@ module.exports = class {
         if(!this._check_isAllFilled(this._body)) return "비워진 값이 있습니다 !";
         if(!this._check_email(this._body)) return "이메일이 유효하지 않습니다 !";
         if(!this._check_password(this._body)) return "패스워드가 유효하지 않습니다 !";
-        
+        if(!this._checkDupEmail(this._body)) return "이메일이 존재하지 않습니다 !";
+
         return "OK";
     }
 
@@ -30,6 +31,12 @@ module.exports = class {
     _check_password(body)
     {
            return /[0-9]+/.test(body.password) && /[A-Za-z]+/.test(body.password) && /^[A-Za-z0-9]{6,12}$/.test(body.password);
+    }
+
+    // 이메일 유무 검사
+    _checkDupEmail(body)
+    {
+        return (new (require('./sqlManager'))).checkDupEmail(body.email); 
     }
    
 }
