@@ -17,7 +17,6 @@ module.exports = function(app)
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>emailValidation</title>
     <link rel="stylesheet" type="text/css" href="/css/signup.css" />
-
 </head>
 
 <body>
