@@ -6,11 +6,17 @@ module.exports = class {
 
     check()
     {
-        if(this._check_isAllFilled(this._body) == false) return "비워진 값이 있습니다 !";
-        if(this._check_username(this._body) == false) return "유저이름이 유효하지 않습니다 ! (숫자,영어대소문자,'_'로 3~12자로 구성)";
-        if(this._check_email(this._body) == false) return "이메일이 유효하지 않습니다 !";
-        if(this._check_password(this._body) == false) return "패스워드가 유효하지 않습니다 ! (숫자와 영어대소문자를 포함해서 6~12자로 구성)";
-        if(this._check_password_check(this._body) == false) return "패스워드와 패스워드확인이 일치하지 않습니다 !";
+        // 필드 유효성 검사
+        if(!this._check_isAllFilled(this._body)) return "비워진 값이 있습니다 !";
+        if(!this._check_username(this._body)) return "유저이름이 유효하지 않습니다 ! (숫자,영어대소문자,'_'로 3~12자로 구성)";
+        if(!this._check_email(this._body)) return "이메일이 유효하지 않습니다 !";
+        if(!this._check_password(this._body)) return "패스워드가 유효하지 않습니다 ! (숫자와 영어대소문자를 포함해서 6~12자로 구성)";
+        if(!this._check_password_check(this._body)) return "패스워드와 패스워드확인이 일치하지 않습니다 !";
+
+        // 중복 확인 검사
+        if(this._checkDupUsername(this._body)) return "이미 존재하는 유저이름입니다.";
+        if(this._checkDupEmail(this._body)) return "이미 존재하는 이메일입니다.";
+
         return "OK";
     }
 
@@ -43,5 +49,16 @@ module.exports = class {
     {
         return body.password == body.password_check;
     }
-    
+
+    // 유저이름 중복 검사
+    _checkDupUsername(body)
+    {
+        return (new (require('./sqlManager'))).checkDupUsername(body.username); 
+    }
+
+    // 이메일 중복 검사
+    _checkDupEmail(body)
+    {
+        return (new (require('./sqlManager'))).checkDupEmail(body.email); 
+    }
 }
