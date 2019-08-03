@@ -4,6 +4,26 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer();
 
+// 세션 등록
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+var config = require("./func/config");
+var options = {
+    host: config.host,
+    port: 3306,
+    user: config.user,
+    password: config.password,
+    database: 'smarge'
+};
+var sessionStore = new MySQLStore(options);
+app.use(session({
+    key: 'SMARGE_SESSION',
+    secret: 'qjqmftptkdit',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+}));
+
 app.use(bodyParser.json()); 
 app.use(upload.array()); 
 app.use(bodyParser.urlencoded({ extended: true })); 

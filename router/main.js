@@ -2,6 +2,22 @@
 module.exports = function(app)
 {
     app.get('/',function(req,res){
+
+    // 디폴트 로그
+    var log = `<a href="/login"><font size=5><STRONG><U>로그인</U></STRONG></font></a>
+    <font size=5><STRONG>/</STRONG></font>
+    <a href="/signup"><font size=5><STRONG><U>회원가입</U></STRONG></font></p></a>`;
+    var log2 = "업로드한 이미지를 공유하고, 사이트에 올릴 수 있습니다 !";
+
+    // 세션이 존재할경우
+    if(req.session.user)
+    {
+        log = `<a href="/"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
+        <font size=5><STRONG>/</STRONG></font>
+        <a href="/"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>`;
+        log2 = `${req.session.user.username}님 반갑습니다 !`;
+    }
+
         var lis = `
 <!DOCTYPE html>
 <html>
@@ -23,14 +39,12 @@ module.exports = function(app)
 </form>
 
 <div id=topI>
-<a href="/login"><font size=5><STRONG><U>로그인</U></STRONG></font></a>
-<font size=5><STRONG>/</STRONG></font>
-<a href="/signup"><font size=5><STRONG><U>회원가입</U></STRONG></font></p></a>
+${log}
 </div>
 </div>
 
 <div id="center">
-<p> 업로드한 이미지를 공유하고, 사이트에 올릴 수 있습니다 ! </p>
+<p style="color:blueviolet"> <font size=5><STRONG><U>${log2}</U></STRONG></font> </p>
 </div>
 
 </body>

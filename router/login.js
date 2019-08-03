@@ -13,7 +13,7 @@ module.exports = function(app)
             if (result == "OK") // 검증을 통과함 
             {
                 // 로그인 검증
-                (new (require('../func/sqlManager'))).verifyLogin(req.body.email, req.body.password, res);
+                (new (require('../func/sqlManager'))).verifyLogin(req.body.email, req.body.password, req, res);
                 return ;
             }
             else
