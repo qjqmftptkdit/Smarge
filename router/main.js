@@ -15,7 +15,8 @@ module.exports = function(app)
         log = `<a href="/"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
         <font size=5><STRONG>/</STRONG></font>
         <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>`;
-        log2 = `${req.session.user.username}님 반갑습니다 !`;
+        log2 = `${req.session.user.username}님 반갑습니다 !
+        <a href="/myImage"><p style="color:blueviolet"> <font size=5><STRONG><U>[ 이미지 업로드 하기] </U></STRONG></font> </p></a>`;
     }
 
         var lis = `

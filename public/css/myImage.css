@@ -1,0 +1,47 @@
+html{
+    background-image: url('/source/bg2.png');
+}
+#top {
+    border: 1px solid black; padding: 10px;
+    width: 1115px; height: 80px;
+    background-image: url('/source/bg1.png');
+    position:absolute;
+    left:20%;
+    z-index: 1;
+    border-radius: 40px / 40px;
+}
+#logo {
+    width: 250px; height: 80px;
+    float: left;
+}
+#topI{
+    float:left;
+    position: relative; left:20px; top:22px;
+    color : blueviolet;
+}
+#topI font:nth-child(4)
+{
+    position: relative;
+    left:360px;
+    top:-50px
+}
+#topI a:nth-child(5)
+{
+    position: relative;
+    left:360px;
+    top:-48px
+}
+#center{
+    border: 1px solid black; padding: 10px;
+    width: 1115px; height: 1000px;
+    background-image: url('/source/bg1.png');
+    position: relative;
+    left:19.7%;
+    top: 120px;
+    float: left;
+    border-radius: 40px / 40px;
+}
+#center p{
+    text-align: center;
+    font-size: x-large;
+}

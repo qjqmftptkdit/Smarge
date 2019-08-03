@@ -3,6 +3,13 @@ module.exports = function(app)
 {
     app.use('/login',function(req,res){
 
+        // 세션이 존재할경우
+        if(req.session.user)
+        {
+            res.redirect("/");
+            return;
+        }
+
         // 디폴트 로그
         var log = '<br><input id="signinButton" type="submit" value="로그인" style="left:200px; top:150px">';
 

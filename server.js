@@ -24,12 +24,19 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+// 미들웨어 등록
 app.use(bodyParser.json()); 
 app.use(upload.array()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.static('public')); // 정적파일 세팅
 
 require('./router/init')(app); // 라우터 초기화
+
+// 404 에러 처리
+app.use(function(req, res, next){
+    res.status(404);
+    res.redirect("/error?error=2")
+});
 
 app.listen(3000, function(){
     console.log("Express server has started on port 3000");

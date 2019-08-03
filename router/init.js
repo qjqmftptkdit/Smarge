@@ -6,4 +6,6 @@ module.exports = function(app)
     require('./emailValidation')(app); // 이메일 확인 라우터 초기화
     require('./login')(app); // 로그인 페이지 라우터 초기화
     require('./destroySession')(app); // 세션 삭제 라우터 초기화
+    require('./myImage')(app); // 계정별 이미지 확인 라우터 초기화
+    require('./error')(app); // 에러 알림 라우터 초기화
 }
