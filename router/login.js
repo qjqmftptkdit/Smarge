@@ -2,6 +2,27 @@
 module.exports = function(app)
 {
     app.use('/login',function(req,res){
+
+        // 디폴트 로그
+        var log = '<br><input id="signinButton" type="submit" value="로그인" style="left:200px; top:150px">';
+
+        // post요청인 경우
+        if(req.method == 'POST')
+        {
+            var result = (new (require('../func/checkLogin'))(req.body)).check() ; // 입력값 확인
+            if (result == "OK") // 검증을 통과함 
+            {
+                console.log("OK");
+                res.redirect("/");
+                return;
+            }
+            else
+            {
+                log = `<p style="color: red; position: relative; top:50px;"><STRONG>>${result}<</STRONG></p> 
+                <br><input id="signinButton" type="submit" value="로그인" style="left:200px; top:49px;"> `
+            }
+        }
+
         var lis = `
 <!DOCTYPE html>
 <html>
@@ -19,10 +40,10 @@ module.exports = function(app)
 
     <div id="center">
             <p> <STRONG>로그인</STRONG> </p>
-            <form> 
-                <input class="in" type="text" placeholder="이메일" style="top:30px"> 
-                <input class="in" type="text" placeholder="비밀번호" style="top:30px">   
-                <br><input id="signinButton" type="submit" value="로그인" style="left:200px; top:150px">
+            <form action"/login" method="POST"> 
+                <input class="in" name="email" type="text" placeholder="이메일" style="top:30px"> 
+                <input class="in" name="password" type="password" placeholder="비밀번호" style="top:30px">   
+                ${log}
             </form>
     </div>
 </body>
