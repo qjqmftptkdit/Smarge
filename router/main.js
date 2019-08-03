@@ -23,7 +23,7 @@ module.exports = function(app)
 </form>
 
 <div id=topI>
-<a href="/"><font size=5><STRONG><U>로그인</U></STRONG></font></a>
+<a href="/login"><font size=5><STRONG><U>로그인</U></STRONG></font></a>
 <font size=5><STRONG>/</STRONG></font>
 <a href="/signup"><font size=5><STRONG><U>회원가입</U></STRONG></font></p></a>
 </div>
