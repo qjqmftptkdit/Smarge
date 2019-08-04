@@ -19,17 +19,29 @@ html{
     position: relative; left:20px; top:22px;
     color : blueviolet;
 }
-#topI font:nth-child(4)
+#topI font:nth-child(6)
 {
     position: relative;
-    left:360px;
+    left: 510px;
     top:-50px
 }
-#topI a:nth-child(5)
+#topI a:nth-child(7)
 {
     position: relative;
-    left:360px;
+    left: 510px;
     top:-48px
+}
+#topI font:nth-child(8)
+{
+    position: relative;
+    left: 710px;
+    top:-97px
+}
+#topI a:nth-child(9)
+{
+    position: relative;
+    left: 710px;
+    top:-96px
 }
 #center{
     border: 1px solid black; padding: 10px;
