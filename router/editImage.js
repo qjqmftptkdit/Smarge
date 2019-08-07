@@ -54,6 +54,9 @@ module.exports = function(app)
             }
         }
 
+        var config = require("../func/config");
+        var host = config.host;
+
         var lis = `
 <!DOCTYPE html>
 <html>
@@ -87,6 +90,8 @@ module.exports = function(app)
     <li><img style="border-radius: 40px / 40px; width: 300px; height: 300px;"" src="${imagePath}"></li>
     <li><textarea cols="63" rows="10" style="font-size: x-large" placeholder="이미지에 대한 설명을 입력하세요 !" name="imgDec">${imageDec}</textarea></li><br>
     <li><input type="submit" value="편집하기" style="font-size: x-large"></li>
+    <li>이미지 공유 링크 : <br>
+    <a href="/showImage?imageFile=${imageFileName}"> http://${host}:3000/showImage?imageFile=${imageFileName} </a></li>
 </form>
 </ul>
 ${errorLog}

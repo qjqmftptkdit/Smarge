@@ -121,4 +121,18 @@ module.exports = class {
     {
         this._result = this._connection.query("UPDATE imageInfo SET image_name=?, image_dec=? WHERE user_name=? AND image_fileName=?;",[image_name, image_dec, username, imgName]);
     }
+
+    // 이미지가 존재하는지 확인한다.
+    imageIsExist(imgName)
+    {
+        this._result = this._connection.query("SELECT image_id FROM imageInfo WHERE image_fileName=?;",[imgName]);
+        return (this._result.length != 0);
+    }
+
+     // 이미지 정보를 얻는다.
+     getImageInfo_2(imgName)
+     {
+         this._result = this._connection.query("SELECT image_name, image_dec, user_name FROM imageInfo WHERE image_fileName=?;",[imgName]);
+         return this._result;
+     }
 }

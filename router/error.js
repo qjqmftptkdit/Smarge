@@ -19,6 +19,10 @@ module.exports = function(app)
             {
                 log = "인증되지 않은 이미지입니다! !";
             }
+            if(req.query.error == 4)
+            {
+                log = "존재하지 않는 이미지입니다! !";
+            }
         }
 
         var lis = `
