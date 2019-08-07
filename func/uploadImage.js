@@ -8,8 +8,8 @@ module.exports = class {
     {
         // 필드 유효성 검사
         if(!this._check_isAllFilled(this._req)) return "비워진 값이 있습니다 !";
-        if(!this._check_imgName(this._req)) return "이미지 이름이 유효하지 않습니다 ! (숫자,영대소문자,빈칸,_,()로 3~20자로 구성)";
-        if(!this._check_imgDec(this._req)) return "이미지 설명이 유효하지 않습니다 ! (숫자,영대소문자,빈칸,_,()로 3~200자로 구성)";
+        if(!this._check_imgName(this._req)) return "이미지 이름이 유효하지 않습니다 ! (숫자,영대소문자,빈칸,_,(),?!로 3~20자로 구성)";
+        if(!this._check_imgDec(this._req)) return "이미지 설명이 유효하지 않습니다 ! (숫자,영대소문자,빈칸,_,(),?!로 3~200자로 구성)";
         if(!this._check_originaoImageName(this._req)) return "이미지는 png, jpg 확장자만 지원합니다 !";
 
         return "OK";
@@ -24,13 +24,13 @@ module.exports = class {
     // 이미지 이름 유효성 검사
     _check_imgName(req)
     {
-        return /^[0-9a-zA-Z _()]{3,20}$/.test(req.body.imgName);
+        return /^[0-9a-zA-Z _()?!]{3,20}$/.test(req.body.imgName);
     }
 
     // 이미지 설명 유효성 검사
     _check_imgDec(req)
     {
-        return /^[0-9a-zA-Z _()]{3,200}$/.test(req.body.imgDec);
+        return /^[0-9a-zA-Z _()?!]{3,200}$/.test(req.body.imgDec);
     }
 
     // 이미지 확장자 유효성 검사

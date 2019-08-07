@@ -86,4 +86,11 @@ module.exports = class {
 
         });
     }
+
+    // 새로운 이미지 정보를 저장시킨다.
+    saveNewImage(username, filename, imgName, imgDec)
+    {
+        this._connection.query("INSERT INTO imageInfo(user_name, image_fileName, image_name, image_dec) VALUES (?, ?, ?, ?);",
+        [username, filename, imgName, imgDec]);
+    }
 }

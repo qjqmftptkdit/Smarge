@@ -12,3 +12,12 @@ user_checkCode varchar(50) NOT NULL,
 user_available boolean NOT NULL DEFAULT 0,
 PRIMARY KEY(user_id)
 );
+
+CREATE TABLE imageInfo(
+image_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+user_name varchar(20) NOT NULL,
+image_fileName varchar(255) NOT NULL,
+image_name varchar(30) NOT NULL,
+image_dec varchar(255) NOT NULL,
+PRIMARY KEY(image_id)
+);

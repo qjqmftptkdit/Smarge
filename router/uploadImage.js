@@ -18,10 +18,13 @@ module.exports = function(app, upload)
             errorLog = (new (require('../func/uploadImage'))(req)).check() ; // 입력값 확인
             if (errorLog == "OK") // 검증을 통과함 
             {
-                (new (require('../func/uploadImage'))(req)).activateImage() ; // 이미지 뒤에 적절한 확장자를 붙인다.
+                var newFileName = (new (require('../func/uploadImage'))(req)).activateImage() ; // 이미지 뒤에 적절한 확장자를 붙인다.
+                (new (require('../func/sqlManager'))).saveNewImage(req.session.user.username, newFileName, req.body.imgName, req.body.imgDec); // 이미지 관련 정보를 저장한다.
+                res.redirect("/myImage");
+                return ;
             }
             else if(req.file)// 검증을 통과하지 못한 경우 -> 올려진 파일을 삭제한다.
-                require('../func/fileManager').removeFile(req.file.filename) ; // 입력값 확인
+                require('../func/fileManager').removeFile(req.file.filename) ; // 이미지 삭제
         }
         
         var lis = `
