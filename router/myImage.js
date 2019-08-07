@@ -13,6 +13,7 @@ module.exports = function(app)
         var log = '<p style="font-size: x-large; color:red;"><strong>현재 업로드된 이미지가 없습니다 !</strong></p>';
         var log2 = `<a href="/myImage?limitImage=0"><STRONG><이전 이미지<STRONG></a>`;
         log2 += `<a href="/myImage?limitImage=1"><STRONG> 다음 이미지><STRONG></a>`;
+        var infoIog = '';
 
         // 디폴트 변수
         var limitImage = 0;
@@ -35,8 +36,15 @@ module.exports = function(app)
             for(var i=0; i<result.length; i++)
             {
                 var image_name = (result[i].image_name.length<17) ? result[i].image_name : (result[i].image_name.substr(0,16) + "...");
-                log += `<a href="/upload/${result[i].image_fileName}"><div><img src="/upload/${result[i].image_fileName}">${image_name}</div></a>`;
+                log += `<a href="/editImage?imageFile=${result[i].image_fileName}"><div><img src="/upload/${result[i].image_fileName}">${image_name}</div></a>`;
             }
+        }
+
+        // 알림 설정
+        if(req.query.info && /^[0-9]+$/.test(req.query.info)) 
+        {
+            if(req.query.info==0)
+                infoIog = `<p style="color:blueviolet;"><STRONG> 편집하고 싶은 이미지를 선택하세요 ! <STROUNG></p>`
         }
 
         var lis = `
@@ -59,13 +67,14 @@ module.exports = function(app)
 <font size=5><STRONG>/</STRONG></font>
 <a href="/uploadImage"><font size=5><STRONG><U>이미지 올리기</U></STRONG></font></a>
 <font size=5><STRONG>/</STRONG></font>
-<a href="/"><font size=5><STRONG><U>이미지 수정하기</U></STRONG></font></p></a>
+<a href="/myImage?info=0"><font size=5><STRONG><U>이미지 수정하기</U></STRONG></font></p></a>
 <font size=5><STRONG>/</STRONG></font>
 <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
 </div>
 </div>
 
 <div id="center">
+${infoIog}
 ${log}
 
 <div style="text-align: center; width: 1115px;">

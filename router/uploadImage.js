@@ -47,7 +47,7 @@ module.exports = function(app, upload)
 <font size=5><STRONG>/</STRONG></font>
 <a href="/uploadImage" style="color:cornflowerblue"><font size=5><STRONG><U>이미지 올리기</U></STRONG></font></a>
 <font size=5><STRONG>/</STRONG></font>
-<a href="/"><font size=5><STRONG><U>이미지 수정하기</U></STRONG></font></p></a>
+<a href="/myImage?info=0"><font size=5><STRONG><U>이미지 수정하기</U></STRONG></font></p></a>
 <font size=5><STRONG>/</STRONG></font>
 <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
 </div>

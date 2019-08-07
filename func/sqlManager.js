@@ -101,4 +101,24 @@ module.exports = class {
         [username, limitImage*12]);
         return result;
     }
+
+    // 이 이미지가 자신의 이미지가 맞는지 확인한다.
+    imageIsValid(username, imgName)
+    {
+        this._result = this._connection.query("SELECT image_id FROM imageInfo WHERE user_name=? AND image_fileName=?;",[username, imgName]);
+        return (this._result.length != 0);
+    }
+
+    // 이미지 정보를 얻는다.
+    getImageInfo(username, imgName)
+    {
+        this._result = this._connection.query("SELECT image_name, image_dec FROM imageInfo WHERE user_name=? AND image_fileName=?;",[username, imgName]);
+        return this._result;
+    }
+
+    // 이미지 정보를 수정한다.
+    editImageInfo(username, imgName, image_name, image_dec)
+    {
+        this._result = this._connection.query("UPDATE imageInfo SET image_name=?, image_dec=? WHERE user_name=? AND image_fileName=?;",[image_name, image_dec, username, imgName]);
+    }
 }

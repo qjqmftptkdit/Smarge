@@ -13,7 +13,11 @@ module.exports = function(app)
             }
             if(req.query.error == 2)
             {
-                log = "잘못된 경로 입니다 !";
+                log = "잘못된 경로입니다 !";
+            }
+            if(req.query.error == 3)
+            {
+                log = "인증되지 않은 이미지입니다! !";
             }
         }
 

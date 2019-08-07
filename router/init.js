@@ -9,4 +9,5 @@ module.exports = function(app, upload)
     require('./myImage')(app); // 계정별 이미지 확인 라우터 초기화
     require('./error')(app); // 에러 알림 라우터 초기화
     require('./uploadImage')(app, upload); // 이미지 업로드 라우터 초기화
+    require('./editImage')(app); // 이미지 편집 라우터 초기화
 }

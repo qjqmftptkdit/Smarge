@@ -4,7 +4,7 @@ module.exports = function(app)
     app.get('/emailValidation',function(req,res){
         var log = '<p style="color:red; top:500px"><STRONG>이메일 인증에 실패했습니다 !</STRONG></p>';
 
-        if(req.query.checkCode)
+        if(req.query.checkCode && /^[0-9]+$/.test(req.query.checkCode))
             // 이메일 인증을 완료한다.
             if((new (require('../func/emailValidation'))).verifyEmail(req.query.checkCode))
                 log = '<p style="color:blueviolet; top:500px"><STRONG>이메일 인증이 완료되었습니다 !</STRONG></p>';
