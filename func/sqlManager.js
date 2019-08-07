@@ -93,4 +93,12 @@ module.exports = class {
         this._connection.query("INSERT INTO imageInfo(user_name, image_fileName, image_name, image_dec) VALUES (?, ?, ?, ?);",
         [username, filename, imgName, imgDec]);
     }
+
+    // 특정 유저의 이미지를 로드시킨다.
+    loadMyImages(username, limitImage)
+    {
+        var result = this._connection.query("SELECT image_fileName, image_name FROM imageInfo WHERE user_name=? LIMIT ?, 12;",
+        [username, limitImage*12]);
+        return result;
+    }
 }
