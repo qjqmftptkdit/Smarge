@@ -16,6 +16,7 @@
   "dependencies": {
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.16.2",
+    "fs": "0.0.1-security",
     "nodemailer": "^6.3.0",
     "secure-random": "^1.1.2",
     "sync-mysql": "^3.0.1"

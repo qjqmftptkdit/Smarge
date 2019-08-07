@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var multer = require('multer');
-var upload = multer();
+var upload = multer({dest: './public/upload'});
 
 // 세션 등록
 var session = require('express-session');
@@ -25,12 +25,11 @@ app.use(session({
 }));
 
 // 미들웨어 등록
-app.use(bodyParser.json()); 
-app.use(upload.array()); 
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.json());  // Json 파싱
+app.use(bodyParser.urlencoded({ extended: true })); // POST 파싱
 app.use(express.static('public')); // 정적파일 세팅
 
-require('./router/init')(app); // 라우터 초기화
+require('./router/init')(app, upload); // 라우터 초기화
 
 // 404 에러 처리
 app.use(function(req, res, next){

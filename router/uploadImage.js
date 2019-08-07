@@ -1,7 +1,7 @@
 // 이미지 업로드 라우터 초기화
-module.exports = function(app)
+module.exports = function(app, upload)
 {
-    app.get('/uploadImage',function(req,res){
+    app.use('/uploadImage', upload.single('imgFile'), function(req,res){
 
         // 세션이 존재하지 않을 경우
         if(!req.session.user)
@@ -10,6 +10,20 @@ module.exports = function(app)
             return;
         }
 
+        var errorLog = '';
+
+        // POST 전송일 경우
+        if(req.method == 'POST')
+        {
+            errorLog = (new (require('../func/uploadImage'))(req)).check() ; // 입력값 확인
+            if (errorLog == "OK") // 검증을 통과함 
+            {
+                (new (require('../func/uploadImage'))(req)).activateImage() ; // 이미지 뒤에 적절한 확장자를 붙인다.
+            }
+            else if(req.file)// 검증을 통과하지 못한 경우 -> 올려진 파일을 삭제한다.
+                require('../func/fileManager').removeFile(req.file.filename) ; // 입력값 확인
+        }
+        
         var lis = `
 <!DOCTYPE html>
 <html>
@@ -39,12 +53,15 @@ module.exports = function(app)
 </div>
 
 <div id="center">
+<form action"/uploadImage" method="POST" enctype="multipart/form-data">
 <ul style="font-size: x-large">
-    <li> <input type="text" size="50" placeholder="이미지 이름" style="font-size: x-large"> </li> <br>
-    <li> 이미지 선택(jpg,png) : <input type="file" value="이미지 선택" style="font-size: x-large"> </li> <br>
-    <li><textarea cols="63" rows="10" style="font-size: x-large" placeholder="이미지에 대한 설명을 입력하세요 !"></textarea></li><br>
+    <li> <input type="text" size="50" placeholder="이미지 이름" style="font-size: x-large" name="imgName"> </li> <br>
+    <li> 이미지 선택(jpg,png) : <input type="file" value="이미지 선택" style="font-size: x-large" name="imgFile"> </li> <br>
+    <li><textarea cols="63" rows="10" style="font-size: x-large" placeholder="이미지에 대한 설명을 입력하세요 !" name="imgDec"></textarea></li><br>
     <li><input type="submit" value="이미지 업로드" style="font-size: x-large"></li>
 </ul>
+</form>
+<p style="font-size: x-large; color:red;"><strong>${errorLog}</strong></p>
 </div>
 
 </body>
