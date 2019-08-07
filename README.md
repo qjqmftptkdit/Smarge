@@ -13,15 +13,17 @@ sudo apt-get install nodejs npm mysql-server
 sudo npm install
 ~~~
 3. 다운받은 폴더의 /func/_config.js의 내용을 수정한 뒤, _config.js를 config.js로 수정한다.
-4. mysql을 실행시킨 뒤, sqlInit.sql을 이용해서 mysql을 초기화시킨다.
+4. config에서 설정한 해당 계정의 '보안 수준이 낮은 앱의 액세스'에 대한 설정을 변경시킨다.
+- https://myaccount.google.com/lesssecureapps 
+5. mysql을 실행시킨 뒤, sqlInit.sql을 이용해서 mysql을 초기화시킨다.
 ~~~mysql
 SOURCE ./sqlInit.sql
 ~~~
-5. 다운받은 폴더에서 server.js를 nodejs로 실행시킨다.
+6. 다운받은 폴더에서 server.js를 nodejs로 실행시킨다.
 ~~~bash
 node server.js
 ~~~
-6. http://localhost:3000/ 과 같이 접속해서 실행이 되는지 확인해본다.
+7. http://localhost:3000/ 과 같이 접속해서 실행이 되는지 확인해본다.
 
 ## 3. 취약점 발견 프로그램
 취약점 발견시에 카카오톡이나 이메일로 취약점 보고서를 작성해서 보내줄 것.
