@@ -135,4 +135,11 @@ module.exports = class {
          this._result = this._connection.query("SELECT image_name, image_dec, user_name FROM imageInfo WHERE image_fileName=?;",[imgName]);
          return this._result;
      }
+
+     // 유저 정보를 얻는다.
+     getUserInfo(username)
+     {
+        this._result = this._connection.query("SELECT user_name, user_email, user_available FROM accounts WHERE user_name=?;",[username]);
+        return this._result;
+     }
 }
