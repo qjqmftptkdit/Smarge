@@ -9,6 +9,14 @@ module.exports = function(app)
         else
             req.session.destroy();
         
+        if(req.query.log)
+        {  
+            if(req.query.log == 1)
+            {
+                log = `<p style="color:blueviolet; top:500px"><STRONG>계정이 완전히 삭제되었습니다 !</STRONG></p>`;
+            }
+        }
+        
         var lis = `
 <!DOCTYPE html>
 <html>

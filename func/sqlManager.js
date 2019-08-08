@@ -28,6 +28,43 @@ module.exports = class {
         });
     }
 
+    // 계정을 삭제시킨다.
+    deleteAccount(password, email, res)
+    {
+        var fileM = require('./fileManager');
+
+        // salt 얻기
+        this._result = this._connection.query("SELECT user_salt FROM accounts WHERE user_email=?;",[email]);
+        var salt = this._result[0].user_salt;
+
+        // 데이터베이스에 존재하는지 확인
+        var _connection = this._connection;
+        require('crypto').pbkdf2(password, salt, 100000, 64, 'sha512', function(err, key){
+            var result = _connection.query("SELECT user_id, user_name FROM accounts WHERE user_email=? AND user_password=?;",
+            [email, key.join('')]);
+            if(result.length != 0)
+            {  // 로그인 검증 통과
+                _connection.query("DELETE FROM accounts WHERE user_id=?",[result[0].user_id]); 
+
+                var username = result[0].user_name;
+                var resultImg = _connection.query("SELECT image_fileName FROM imageInfo WHERE user_name=?;",[username]);
+                for(var i=0; i<resultImg.length; i++)
+                {
+                    fileM.removeFile(resultImg[i].image_fileName); 
+                }
+
+                _connection.query("DELETE FROM imageInfo WHERE user_name=?",[username]);
+                res.redirect("/destroySession?log=1");
+                return;
+            }
+            else // 패스워드가 일치하지 않음
+            {
+                res.redirect("/deleteAccount?log=1");
+                return ;
+            }
+        });
+    }
+
     // 유저이름 중복여부 확인
     checkDupUsername(username)
     {

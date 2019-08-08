@@ -85,6 +85,8 @@ module.exports = function(app)
 <div id=topI>
     <a href="/accountSetting" style="color:cornflowerblue"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
     <font size=5><STRONG>/</STRONG></font>
+    <a href="/deleteAccount" style="color:red"><font size=5><STRONG><U>계정삭제</U></STRONG></font></a>
+    <font size=5><STRONG>/</STRONG></font>
     <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
     </div>
 </div>

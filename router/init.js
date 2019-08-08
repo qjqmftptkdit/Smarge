@@ -12,4 +12,5 @@ module.exports = function(app, upload)
     require('./editImage')(app); // 이미지 편집 라우터 초기화
     require('./showImage')(app); // 이미지 공개 라우터 초기화
     require('./accountSetting')(app); // 계정 설정 라우터 초기화
+    require('./deleteAccount')(app); // 계정 삭제 라우터 초기화
 }
