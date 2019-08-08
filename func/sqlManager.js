@@ -142,4 +142,11 @@ module.exports = class {
         this._result = this._connection.query("SELECT user_name, user_email, user_available FROM accounts WHERE user_name=?;",[username]);
         return this._result;
      }
+
+     // 유저 이름을 변경시킨다.
+     editUsername(username, username_new)
+     {
+        this._connection.query("UPDATE accounts SET user_name=? WHERE user_name=?;",[username_new, username]);
+        this._connection.query("UPDATE imageInfo SET user_name=? WHERE user_name=?;",[username_new, username]);
+     }
 }

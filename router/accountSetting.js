@@ -27,7 +27,13 @@ module.exports = function(app)
                 errorLog = (new (require('../func/checkAccountSetting'))(req.body)).check_username() ;
                 if(errorLog == "OK")
                 {
-                    console.log("OK");
+                    (new (require('../func/sqlManager'))).editUsername(username, req.body.username);
+                    req.session.user = {
+                        "username" : req.body.username,
+                        "email" : email
+                    }
+                    username = req.body.username
+                    Log = `<p style="color: blue; font-size: x-large"><STRONG>유저이름을 성공적으로 수정했습니다 !</STRONG></p>`
                 }
                 else
                 {
