@@ -39,6 +39,32 @@ module.exports = function(app)
                 {
                     Log = `<p style="color: red; font-size: x-large"><STRONG>${errorLog}</STRONG></p>`
                 }
+            } // 패스워드 변경에 대한 요청인 경우
+            else if(req.body.editPassword)
+            {
+                errorLog = (new (require('../func/checkAccountSetting'))(req.body)).check_password() ;
+                if(errorLog == "OK")
+                {
+                    (new (require('../func/sqlManager'))).editPassword(req.session.user.email, req.body.password_current, req.body.password_change, res);
+                    return ;
+                }
+                else
+                {
+                    Log = `<p style="color: red; font-size: x-large"><STRONG>${errorLog}</STRONG></p>`
+                }
+            }
+        }
+
+        // 추가적인 로그처리
+        if(req.query.log)
+        {
+            if(req.query.log == 1)
+            {
+                Log = `<p style="color: red; font-size: x-large"><STRONG>현재 패스워드가 일치하지 않습니다 !</STRONG></p>`;
+            }
+            if(req.query.log == 2)
+            {
+                Log = `<p style="color: blue; font-size: x-large"><STRONG>패스워드를 성공적으로 수정했습니다 !</STRONG></p>`
             }
         }
 
@@ -68,9 +94,9 @@ module.exports = function(app)
         <li style="font-size: x-large"> 유저이름 : <input type="text" size="50" placeholder="유저이름" style="font-size: x-large" name="username" value=${username}> <input type="submit" value="변경하기" name="editUsername"> </li> <br>
         <li style="font-size: x-large"> 이메일 : ${email} </li> <br>
         <li style="font-size: x-large"> 이메일 인증여부 : ${userAb} </li> <br>
-        <li style="font-size: x-large"> 현재 패스워드 : <input type="text" size="50" placeholder="현재 패스워드" style="font-size: x-large" name="password_current"> </li> <br>
-        <li style="font-size: x-large"> 변경할 패스워드 : <input type="text" size="50" placeholder="변경할 패스워드" style="font-size: x-large" name="password_change"> </li> <br>
-        <li style="font-size: x-large"> 재입력 : <input type="text" size="50" placeholder="재입력" style="font-size: x-large" name="password_change_r"> <input type="submit" value="변경하기" name="editPassword"> </li> <br>
+        <li style="font-size: x-large"> 현재 패스워드 : <input type="password" size="50" placeholder="현재 패스워드" style="font-size: x-large" name="password_current"> </li> <br>
+        <li style="font-size: x-large"> 변경할 패스워드 : <input type="password" size="50" placeholder="변경할 패스워드" style="font-size: x-large" name="password_change"> </li> <br>
+        <li style="font-size: x-large"> 재입력 : <input type="password" size="50" placeholder="재입력" style="font-size: x-large" name="password_change_r"> <input type="submit" value="변경하기" name="editPassword"> </li> <br>
     </form>
     ${Log}
 </div>

@@ -129,24 +129,54 @@ module.exports = class {
         return (this._result.length != 0);
     }
 
-     // 이미지 정보를 얻는다.
-     getImageInfo_2(imgName)
-     {
-         this._result = this._connection.query("SELECT image_name, image_dec, user_name FROM imageInfo WHERE image_fileName=?;",[imgName]);
-         return this._result;
-     }
-
-     // 유저 정보를 얻는다.
-     getUserInfo(username)
-     {
-        this._result = this._connection.query("SELECT user_name, user_email, user_available FROM accounts WHERE user_name=?;",[username]);
+    // 이미지 정보를 얻는다.
+    getImageInfo_2(imgName)
+    {
+        this._result = this._connection.query("SELECT image_name, image_dec, user_name FROM imageInfo WHERE image_fileName=?;",[imgName]);
         return this._result;
-     }
+    }
 
-     // 유저 이름을 변경시킨다.
-     editUsername(username, username_new)
-     {
-        this._connection.query("UPDATE accounts SET user_name=? WHERE user_name=?;",[username_new, username]);
-        this._connection.query("UPDATE imageInfo SET user_name=? WHERE user_name=?;",[username_new, username]);
-     }
+    // 유저 정보를 얻는다.
+    getUserInfo(username)
+    {
+    this._result = this._connection.query("SELECT user_name, user_email, user_available FROM accounts WHERE user_name=?;",[username]);
+    return this._result;
+    }
+
+    // 유저 이름을 변경시킨다.
+    editUsername(username, username_new)
+    {
+    this._connection.query("UPDATE accounts SET user_name=? WHERE user_name=?;",[username_new, username]);
+    this._connection.query("UPDATE imageInfo SET user_name=? WHERE user_name=?;",[username_new, username]);
+    }
+
+    // 패스워드를 변경한다.
+    editPassword(email, password, password_new, res)
+    {
+         // salt 얻기
+         this._result = this._connection.query("SELECT user_salt FROM accounts WHERE user_email=?;",[email]);
+         var salt = this._result[0].user_salt;
+ 
+         // 데이터베이스에 존재하는지 확인
+         var _connection = this._connection;
+         require('crypto').pbkdf2(password, salt, 100000, 64, 'sha512', function(err, key){
+             var result = _connection.query("SELECT user_id FROM accounts WHERE user_email=? AND user_password=?;",
+             [email, key.join('')]);
+ 
+             if(result.length != 0)
+             {  // 로그인 검증 통과
+                require('crypto').pbkdf2(password_new, salt, 100000, 64, 'sha512', function(err, key){
+                    _connection.query("UPDATE accounts SET user_password=? WHERE user_id=?;",[key.join(''), result[0].user_id]);
+                });
+                res.redirect("/accountSetting?log=2");
+                return ;
+             }
+             else // 패스워드가 일치하지 않음
+             {
+                 res.redirect("/accountSetting?log=1");
+                 return ;
+             }
+ 
+         });
+    }
 }
