@@ -12,7 +12,7 @@ module.exports = function(app)
     // 세션이 존재할경우
     if(req.session.user)
     {
-        log = `<a href="/"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
+        log = `<a href="/accountSetting"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
         <font size=5><STRONG>/</STRONG></font>
         <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>`;
         log2 = `${req.session.user.username}님 반갑습니다 !
