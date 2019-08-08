@@ -45,6 +45,8 @@ module.exports = function(app)
         {
             if(req.query.info==0)
                 infoIog = `<p style="color:blueviolet;"><STRONG> 편집하고 싶은 이미지를 선택하세요 ! <STROUNG></p>`
+            if(req.query.info==1)
+                infoIog = `<p style="color:blueviolet;"><STRONG> 이미지가 성공적으로 삭제되었습니다 ! <STROUNG></p>`
         }
 
         var lis = `

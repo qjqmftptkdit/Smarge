@@ -30,6 +30,11 @@ module.exports = function(app)
                 return;
             }
         }
+        else
+        {
+            res.redirect("/error?error=3");
+            return;
+        }
 
         var errorLog='';
         // POST 요청인 경우
@@ -51,7 +56,14 @@ module.exports = function(app)
                 {
                     errorLog = `<p style="font-size: x-large; color:red"><STRONG>${result}</STRONG></p>`;
                 }
-            }
+            } 
+        }
+        // 이미지 삭제 요청인 경우
+        if(req.query.qtype && req.query.qtype=='del')
+        {
+            (new (require('../func/editImage'))(req)).deleteImage() ;
+            res.redirect("/myImage?info=1");
+            return ;
         }
 
         var config = require("../func/config");
@@ -78,6 +90,8 @@ module.exports = function(app)
 <a href="/uploadImage"><font size=5><STRONG><U>이미지 올리기</U></STRONG></font></a>
 <font size=5><STRONG>/</STRONG></font>
 <a href="/myImage?info=0" style="color:cornflowerblue"><font size=5><STRONG><U>이미지 수정하기</U></STRONG></font></p></a>
+<font size=5><STRONG>/</STRONG></font>
+<a href="/editImage?qtype=del&imageFile=${imageFileName}" style="color:red"><font size=5><STRONG><U>이미지 삭제하기</U></STRONG></font></p></a>
 <font size=5><STRONG>/</STRONG></font>
 <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
 </div>

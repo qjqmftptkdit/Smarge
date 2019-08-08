@@ -122,6 +122,12 @@ module.exports = class {
         this._result = this._connection.query("UPDATE imageInfo SET image_name=?, image_dec=? WHERE user_name=? AND image_fileName=?;",[image_name, image_dec, username, imgName]);
     }
 
+    // 이미지 정보를 삭제한다.
+    removeImageInfo(imgName)
+    {
+        this._result = this._connection.query("DELETE FROM imageInfo WHERE image_fileName=?",[imgName]);
+    }
+
     // 이미지가 존재하는지 확인한다.
     imageIsExist(imgName)
     {
@@ -176,7 +182,6 @@ module.exports = class {
                  res.redirect("/accountSetting?log=1");
                  return ;
              }
- 
          });
     }
 }

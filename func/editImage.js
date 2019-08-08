@@ -31,4 +31,11 @@ module.exports = class {
     {
         return /^[0-9a-zA-Z _()?!]{3,200}$/.test(req.body.imgDec);
     }
+
+    // 이미지를 삭제시킨다.
+    deleteImage()
+    {
+        (require('./fileManager')).removeFile(this._req.query.imageFile); 
+        (new (require('./sqlManager'))).removeImageInfo(this._req.query.imageFile);
+    }
 }
