@@ -57,6 +57,8 @@ module.exports = function(app)
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>myImage</title>
     <link rel="stylesheet" type="text/css" href="/css/myImage.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/myImage.js"></script>
 </head>
 
 <body>
@@ -67,11 +69,11 @@ module.exports = function(app)
 <div id=topI>
 <a href="/myImage" style="color:cornflowerblue"><font size=5><STRONG><U>나의 이미지</U></STRONG></font></a>
 <font size=5><STRONG>/</STRONG></font>
-<a href="/uploadImage"><font size=5><STRONG><U>이미지 올리기</U></STRONG></font></a>
+<a href="/uploadImage" style="color:blueviolet" id="link1"><font size=5><STRONG><U>이미지 올리기</U></STRONG></font></a>
 <font size=5><STRONG>/</STRONG></font>
-<a href="/myImage?info=0"><font size=5><STRONG><U>이미지 수정하기</U></STRONG></font></p></a>
+<a href="/myImage?info=0" style="color:blueviolet" id="link2"><font size=5><STRONG><U>이미지 수정하기</U></STRONG></font></p></a>
 <font size=5><STRONG>/</STRONG></font>
-<a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
+<a href="/destroySession" style="color:blueviolet" id="link3"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
 </div>
 </div>
 

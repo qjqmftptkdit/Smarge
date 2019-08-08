@@ -40,6 +40,12 @@ html{
     position: relative; left:20px; top:22px;
     color : blueviolet;
 }
+#link1{
+    color : blueviolet;
+}
+#link2{
+    color : blueviolet;
+}
 #center{
     border: 1px solid black; padding: 10px;
     width: 1115px; height: 1000px;

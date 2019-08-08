@@ -4,19 +4,19 @@ module.exports = function(app)
     app.get('/',function(req,res){
 
     // 디폴트 로그
-    var log = `<a href="/login"><font size=5><STRONG><U>로그인</U></STRONG></font></a>
+    var log = `<a href="/login" id="link1"><font size=5><STRONG><U>로그인</U></STRONG></font></a>
     <font size=5><STRONG>/</STRONG></font>
-    <a href="/signup"><font size=5><STRONG><U>회원가입</U></STRONG></font></p></a>`;
+    <a href="/signup" id="link2"><font size=5><STRONG><U>회원가입</U></STRONG></font></p></a>`;
     var log2 = "업로드한 이미지를 공유하고, 사이트에 올릴 수 있습니다 !";
 
     // 세션이 존재할경우
     if(req.session.user)
     {
-        log = `<a href="/accountSetting"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
+        log = `<a href="/accountSetting" id="link1"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
         <font size=5><STRONG>/</STRONG></font>
-        <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>`;
+        <a href="/destroySession" id="link2"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>`;
         log2 = `${req.session.user.username}님 반갑습니다 !
-        <a href="/myImage"><p style="color:blueviolet"> <font size=5><STRONG><U>[ 이미지 업로드 하기] </U></STRONG></font> </p></a>`;
+        <a href="/myImage" style="color:blueviolet"><p> <font size=5><STRONG><U>[ 이미지 업로드 하기] </U></STRONG></font> </p></a>`;
     }
 
         var lis = `
@@ -27,6 +27,8 @@ module.exports = function(app)
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>main</title>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/myImage.js"></script>
 </head>
 
 <body>

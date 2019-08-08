@@ -25,6 +25,16 @@ module.exports = function(app)
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>destorySession</title>
     <link rel="stylesheet" type="text/css" href="/css/signup.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    $(function(){
+        $('#logo').mouseenter(function(){
+            $('#logo').css('opacity','0.8');
+        }).mouseleave(function(){
+            $('#logo').css('opacity','1');
+        });
+    });
+    </script>
 </head>
 
 <body>

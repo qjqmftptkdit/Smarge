@@ -76,6 +76,8 @@ module.exports = function(app)
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>myImage</title>
     <link rel="stylesheet" type="text/css" href="/css/myImage.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/accountSetting.js"></script>
 </head>
 
 <body>
@@ -85,9 +87,9 @@ module.exports = function(app)
 <div id=topI>
     <a href="/accountSetting" style="color:cornflowerblue"><font size=5><STRONG><U>계정설정</U></STRONG></font></a>
     <font size=5><STRONG>/</STRONG></font>
-    <a href="/deleteAccount" style="color:red"><font size=5><STRONG><U>계정삭제</U></STRONG></font></a>
+    <a href="/deleteAccount" style="color:red" id="link1"><font size=5><STRONG><U>계정삭제</U></STRONG></font></a>
     <font size=5><STRONG>/</STRONG></font>
-    <a href="/destroySession"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
+    <a href="/destroySession" style="color:blueviolet" id="link2"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>
     </div>
 </div>
 

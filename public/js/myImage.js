@@ -1,0 +1,22 @@
+$(function(){
+    $('#logo').mouseenter(function(){
+        $('#logo').css('opacity','0.8');
+    }).mouseleave(function(){
+        $('#logo').css('opacity','1');
+    });
+    $('#link1').mouseenter(function(){
+        $('#link1').css('color','darkmagenta');
+    }).mouseleave(function(){
+        $('#link1').css('color','blueviolet');
+    });
+    $('#link2').mouseenter(function(){
+        $('#link2').css('color','darkmagenta');
+    }).mouseleave(function(){
+        $('#link2').css('color','blueviolet');
+    });
+    $('#link3').mouseenter(function(){
+        $('#link3').css('color','darkmagenta');
+    }).mouseleave(function(){
+        $('#link3').css('color','blueviolet');
+    });
+});
