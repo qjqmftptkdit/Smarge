@@ -147,6 +147,14 @@ module.exports = class {
         return result;
     }
 
+    // 쿼리를 기반으로 커뮤니티에 공개된 이미지를 로드시킨다.
+    loadSharedImages_q(limitImage, query)
+    {
+        var result = this._connection.query("SELECT image_fileName, image_name, image_like, image_dislike, image_viewed FROM imageInfo WHERE image_share=1 AND image_name LIKE ? LIMIT ?, 12;",
+        [`%${query}%`, limitImage*12]);
+        return result;
+    }
+
     // 이 이미지가 자신의 이미지가 맞는지 확인한다.
     imageIsValid(username, imgName)
     {

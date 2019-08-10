@@ -48,7 +48,7 @@ html{
 }
 #center{
     border: 1px solid black; padding: 10px;
-    width: 1115px; height: 1000px;
+    width: 1115px; height: 2000px;
     background-image: url('/source/bg1.png');
     position: relative;
     left:19.7%;

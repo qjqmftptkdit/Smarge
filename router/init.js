@@ -1,7 +1,6 @@
 // 라우터 초기화
 module.exports = function(app, upload)
 {
-    require('./main')(app); // 메인 홈페이지 라우터 초기화
     require('./signup')(app); // 회원가입 페이지 라우터 초기화
     require('./emailValidation')(app); // 이메일 확인 라우터 초기화
     require('./login')(app); // 로그인 페이지 라우터 초기화
@@ -14,4 +13,5 @@ module.exports = function(app, upload)
     require('./accountSetting')(app); // 계정 설정 라우터 초기화
     require('./deleteAccount')(app); // 계정 삭제 라우터 초기화
     require('./showSharedImage')(app); // 커뮤니티에 공개된 이미지 상세정보 라우터 초기화
+    require('./main')(app); // 메인 홈페이지 라우터 초기화
 }

@@ -1,7 +1,7 @@
 // 메인 홈페이지 라우터 초기화
 module.exports = function(app)
 {
-    app.get('/',function(req,res){
+    app.use('/',function(req,res){
 
     // 디폴트 로그
     var log = `<a href="/login" id="link1"><font size=5><STRONG><U>로그인</U></STRONG></font></a>
@@ -16,7 +16,7 @@ module.exports = function(app)
         <font size=5><STRONG>/</STRONG></font>
         <a href="/destroySession" id="link2"><font size=5><STRONG><U>로그아웃</U></STRONG></font></p></a>`;
         log2 = `${req.session.user.username}님 반갑습니다 !
-        <a href="/myImage" style="color:blueviolet"><p> <font size=5><STRONG><U>[ 이미지 업로드 하기] </U></STRONG></font> </p></a>`;
+        <a href="/myImage" style="color:blueviolet"><p> <font size=5><STRONG><U>[ 이미지 업로드 하기 ] </U></STRONG></font> </p></a>`;
     }
 
     // 디폴트 변수
@@ -36,14 +36,52 @@ module.exports = function(app)
 
     // 커뮤니티에 공유된 이미지를 로드한다.
     var sharedImg = '<p style="font-size: x-large; color:blueviolet;"><strong>현재 커뮤니티에 공유된 이미지가 없습니다 !</strong></p>';
-    var result = (new (require('../func/sqlManager'))).loadSharedImages(limitImage);
-    if(result.length>0)
+    var errorLog = '';
+    // get 요청인 경우
+    if(req.method == 'GET')
     {
-        sharedImg = '';
-        for(var i=0; i<result.length; i++)
+        var result = (new (require('../func/sqlManager'))).loadSharedImages(limitImage);
+        if(result.length>0)
         {
-            var image_name = (result[i].image_name.length<17) ? result[i].image_name : (result[i].image_name.substr(0,16) + "...");
-            sharedImg += `<a href="/showSharedImage?imageFile=${result[i].image_fileName}"><div><img src="/upload/${result[i].image_fileName}"><br>${image_name}<br>👍${result[i].image_like} / 👎${result[i].image_dislike} / 👋${result[i].image_viewed} </div></a>`;
+            sharedImg = '';
+            for(var i=0; i<result.length; i++)
+            {
+                var image_name = (result[i].image_name.length<17) ? result[i].image_name : (result[i].image_name.substr(0,16) + "...");
+                sharedImg += `<a href="/showSharedImage?imageFile=${result[i].image_fileName}"><div><img src="/upload/${result[i].image_fileName}"><br>${image_name}<br>👍${result[i].image_like} / 👎${result[i].image_dislike} / 👋${result[i].image_viewed} </div></a>`;
+            }
+        }
+    }
+    else if(req.method == 'POST' && req.query.qtype && req.query.qtype=="search") // post 요청인 경우
+    {
+        if(req.body.query)
+        {
+            if(/^[0-9a-zA-Z _()?!]{1,20}$/.test(req.body.query))
+            {
+                var result = (new (require('../func/sqlManager'))).loadSharedImages_q(limitImage, req.body.query);
+                log2 = `${req.body.query}로 검색한 결과입니다 !
+                <a href="/myImage" style="color:blueviolet"><p> <font size=5><STRONG><U>[ 이미지 업로드 하기 ] </U></STRONG></font> </p></a>`;
+                if(result.length>0)
+                {
+                    sharedImg = '';
+                    for(var i=0; i<result.length; i++)
+                    {
+                        var image_name = (result[i].image_name.length<17) ? result[i].image_name : (result[i].image_name.substr(0,16) + "...");
+                        sharedImg += `<a href="/showSharedImage?imageFile=${result[i].image_fileName}"><div><img src="/upload/${result[i].image_fileName}"><br>${image_name}<br>👍${result[i].image_like} / 👎${result[i].image_dislike} / 👋${result[i].image_viewed} </div></a>`;
+                    }
+                }
+            }
+            else
+            {
+                errorLog = '<p style="color: red; position: relative; top:50px;"><STRONG>>잘못된 이미지 검색명 입니다 !<</STRONG></p>';
+                sharedImg = '';
+                limitLog = '';
+            }
+        }
+        else
+        {
+            errorLog = '<p style="color: red; position: relative; top:50px;"><STRONG>>검색창에 아무것도 입력하지 않았습니다 ! !<</STRONG></p>';
+            sharedImg = '';
+            limitLog = '';
         }
     }
 
@@ -65,8 +103,8 @@ module.exports = function(app)
 <div id="top">
 <a href="/"><img src="/source/logo.png" id="logo"></a>
 
-<form id="search">
-    <input type="text" id="query">
+<form id="search" action="/?qtype=search" method="POST">
+    <input type="text" id="query" name="query">
     <input type="submit" id="queryButton" value=""/>
 </form>
 
@@ -77,6 +115,7 @@ ${log}
 
 <div id="center">
 <p style="color:blueviolet"> <font size=5><STRONG><U>${log2}</U></STRONG></font> </p>
+${errorLog}
 ${sharedImg}
 <div style="text-align: center; width: 1115px;">
 ${limitLog}
