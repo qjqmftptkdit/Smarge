@@ -186,6 +186,13 @@ module.exports = class {
         return (this._result.length != 0);
     }
 
+    // 이미지가 존재하며, 공유설정 상태인지 확인한다.
+    imageIsExist_s(imgName)
+    {
+        this._result = this._connection.query("SELECT image_id FROM imageInfo WHERE image_fileName=? AND image_share=1;",[imgName]);
+        return (this._result.length != 0);
+    }
+
     // 이미지 정보를 얻는다.
     getImageInfo_2(imgName)
     {
@@ -196,8 +203,14 @@ module.exports = class {
     // 이미지 정보를 얻는다.
     getImageInfo_3(imgName)
     {
-        this._result = this._connection.query("SELECT image_name, image_dec, user_name, image_like, image_dislike, image_viewed FROM imageInfo WHERE image_fileName=?;",[imgName]);
+        this._result = this._connection.query("SELECT image_name, image_dec, user_name, image_like, image_dislike, image_viewed FROM imageInfo WHERE image_fileName=? AND image_share=1;",[imgName]);
         return this._result;
+    }
+
+    // 조회수를 증가시킨다.
+    increaseViewed(imgName, viewNum)
+    {
+        this._result = this._connection.query("UPDATE imageInfo SET image_viewed=? WHERE image_fileName=? AND image_share=1;",[viewNum, imgName]);
     }
 
     // 유저 정보를 얻는다.

@@ -10,23 +10,24 @@ module.exports = function(app)
         var imageLike=0;
         var imageDislike=0;
         var imageViewed=0;
-        if(req.query.imageFile && /^[0-9a-z.]+$/.test(req.query.imageFile) && (new (require('../func/sqlManager'))).imageIsExist(req.query.imageFile)) 
+        if(req.query.imageFile && /^[0-9a-z.]+$/.test(req.query.imageFile) && (new (require('../func/sqlManager'))).imageIsExist_s(req.query.imageFile)) 
         {
             var result = (new (require('../func/sqlManager'))).getImageInfo_3(req.query.imageFile);
-            imagePath=req.query.imageFile;
+            imagePath= req.query.imageFile;
             imageName = result[0].image_name;
             imageDec = result[0].image_dec;
             userName = result[0].user_name;
             imageLike = result[0].image_like;
             imageDislike = result[0].image_dislike;
             imageViewed = result[0].image_viewed;
+
+            (new (require('../func/sqlManager'))).increaseViewed(req.query.imageFile, Number(imageViewed)+1);
         }   
         else
         {
             res.redirect("/error?error=4");
             return;
         }
-
         var lis = `
 <!DOCTYPE html>
 <html>
