@@ -22,5 +22,6 @@ image_dec varchar(255) NOT NULL,
 image_share boolean NOT NULL DEFAULT 0,
 image_like bigint(20) unsigned NOT NULL DEFAULT 0,
 image_dislike bigint(20) unsigned NOT NULL DEFAULT 0,
+image_viewed bigint(20) unsigned NOT NULL DEFAULT 0,
 PRIMARY KEY(image_id)
 );

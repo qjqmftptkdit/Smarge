@@ -139,6 +139,14 @@ module.exports = class {
         return result;
     }
 
+    // 커뮤니티에 공개된 이미지를 로드시킨다.
+    loadSharedImages(limitImage)
+    {
+        var result = this._connection.query("SELECT image_fileName, image_name, image_like, image_dislike, image_viewed FROM imageInfo WHERE image_share=1 LIMIT ?, 12;",
+        [limitImage*12]);
+        return result;
+    }
+
     // 이 이미지가 자신의 이미지가 맞는지 확인한다.
     imageIsValid(username, imgName)
     {
@@ -182,6 +190,13 @@ module.exports = class {
     getImageInfo_2(imgName)
     {
         this._result = this._connection.query("SELECT image_name, image_dec, user_name FROM imageInfo WHERE image_fileName=?;",[imgName]);
+        return this._result;
+    }
+
+    // 이미지 정보를 얻는다.
+    getImageInfo_3(imgName)
+    {
+        this._result = this._connection.query("SELECT image_name, image_dec, user_name, image_like, image_dislike, image_viewed FROM imageInfo WHERE image_fileName=?;",[imgName]);
         return this._result;
     }
 

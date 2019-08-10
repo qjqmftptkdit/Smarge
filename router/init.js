@@ -13,4 +13,5 @@ module.exports = function(app, upload)
     require('./showImage')(app); // 이미지 공개 라우터 초기화
     require('./accountSetting')(app); // 계정 설정 라우터 초기화
     require('./deleteAccount')(app); // 계정 삭제 라우터 초기화
+    require('./showSharedImage')(app); // 커뮤니티에 공개된 이미지 상세정보 라우터 초기화
 }
