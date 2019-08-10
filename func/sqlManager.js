@@ -213,18 +213,44 @@ module.exports = class {
         this._result = this._connection.query("UPDATE imageInfo SET image_viewed=? WHERE image_fileName=? AND image_share=1;",[viewNum, imgName]);
     }
 
+    // 좋아요를 증가시킨다.
+    increaseLike(imgName, likeNum)
+    {
+        this._result = this._connection.query("UPDATE imageInfo SET image_like=? WHERE image_fileName=? AND image_share=1;",[likeNum, imgName]);
+    }
+
+    // 싫어요를 증가시킨다.
+    increaseDislike(imgName, dislikeNum)
+    {
+        this._result = this._connection.query("UPDATE imageInfo SET image_dislike=? WHERE image_fileName=? AND image_share=1;",[dislikeNum, imgName]);
+    }
+
+    // 해당 유저가 이미 좋아요, 싫어요를 눌렀는지 확인한다
+    checkCheckList(imgName, username)
+    {
+        this._result = this._connection.query("SELECT id FROM checkList WHERE user_name=? AND check_image=?;",[username, imgName]);
+        if (this._result.length == 0) // 아직 좋아요, 싫어요를 누르지 않은 상태
+        {
+            this._connection.query("INSERT INTO checkList(user_name, check_image) VALUES (?, ?);",
+            [username, imgName]);
+            return true;
+        }
+        else // 이미 누른 상태
+            return false ;
+    }
+
     // 유저 정보를 얻는다.
     getUserInfo(username)
     {
-    this._result = this._connection.query("SELECT user_name, user_email, user_available FROM accounts WHERE user_name=?;",[username]);
-    return this._result;
+        this._result = this._connection.query("SELECT user_name, user_email, user_available FROM accounts WHERE user_name=?;",[username]);
+        return this._result;
     }
 
     // 유저 이름을 변경시킨다.
     editUsername(username, username_new)
     {
-    this._connection.query("UPDATE accounts SET user_name=? WHERE user_name=?;",[username_new, username]);
-    this._connection.query("UPDATE imageInfo SET user_name=? WHERE user_name=?;",[username_new, username]);
+        this._connection.query("UPDATE accounts SET user_name=? WHERE user_name=?;",[username_new, username]);
+        this._connection.query("UPDATE imageInfo SET user_name=? WHERE user_name=?;",[username_new, username]);
     }
 
     // 패스워드를 변경한다.

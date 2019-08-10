@@ -21,13 +21,43 @@ module.exports = function(app)
             imageDislike = result[0].image_dislike;
             imageViewed = result[0].image_viewed;
 
-            (new (require('../func/sqlManager'))).increaseViewed(req.query.imageFile, Number(imageViewed)+1);
+            if(!req.query.qtype)
+                (new (require('../func/sqlManager'))).increaseViewed(req.query.imageFile, Number(imageViewed)+1);
         }   
         else
         {
             res.redirect("/error?error=4");
             return;
         }
+        
+        var log = '';
+        if(req.session.user && req.query.qtype)
+        {
+            if((new (require('../func/sqlManager'))).checkCheckList(req.query.imageFile, req.session.user.username))
+            {
+                if(req.query.qtype=="like")
+                {
+                    (new (require('../func/sqlManager'))).increaseLike(req.query.imageFile, Number(imageLike)+1)
+                    imageLike = Number(imageLike)+1;
+                    log = '<p style="color: blue; position: relative; top:50px;"><STRONG>>좋아요를 눌렀습니다 !<</STRONG></p>';
+                }
+                if(req.query.qtype=="dislike")
+                {
+                    (new (require('../func/sqlManager'))).increaseDislike(req.query.imageFile, Number(imageDislike)+1)
+                    imageDislike = Number(imageDislike)+1;
+                    log = '<p style="color: blue; position: relative; top:50px;"><STRONG>>싫어요를 눌렀습니다 !<</STRONG></p>';
+                }
+            }
+            else
+            {
+                log = '<p style="color: red; position: relative; top:50px;"><STRONG>>이미 좋아요, 싫어요를 눌렀습니다 !<</STRONG></p>';
+            }
+        }
+        else if(req.query.qtype)
+        {
+            log = '<p style="color: red; position: relative; top:50px;"><STRONG>>로그인 이후 이용가능한 서비스 입니다 !<</STRONG></p>';
+        }
+
         var lis = `
 <!DOCTYPE html>
 <html>
@@ -63,9 +93,10 @@ module.exports = function(app)
         <li style="font-size: xx-large">${imageName}</li> <br>
         <img style="border-radius: 40px / 40px; width: 300px; height: 300px;"" src="/upload/${imagePath}">
         <li>${imageDec}</li><br>
-        <li> likes : ${imageLike} <a href="/showSharedImage"> [ I like too ! ] </a> </li> <br>
-        <li> disSlikes : ${imageDislike} <a href="/showSharedImage"> [ I dislike too ! ] </a> </li> <br>
+        <li> likes : ${imageLike} <a href="/showSharedImage?qtype=like&imageFile=${imagePath}"> [ I like too ! ] </a> </li> <br>
+        <li> dislikes : ${imageDislike} <a href="/showSharedImage?qtype=dislike&imageFile=${imagePath}"> [ I dislike too ! ] </a> </li> <br>
     </ul>
+    ${log}
 </div>
 </body>
 

@@ -25,3 +25,10 @@ image_dislike bigint(20) unsigned NOT NULL DEFAULT 0,
 image_viewed bigint(20) unsigned NOT NULL DEFAULT 0,
 PRIMARY KEY(image_id)
 );
+
+CREATE TABLE checkList (
+    id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    user_name varchar(20) NOT NULL,
+    check_image varchar(255) NOT NULL,
+    PRIMARY KEY(id)
+);
