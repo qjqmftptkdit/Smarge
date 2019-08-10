@@ -13,6 +13,7 @@ module.exports = function(app)
         var imageName='';
         var imageDec='';
         var imageFileName='';
+        var shareLog='';
         // 이미지 파일 확인
         if(req.query.imageFile && /^[0-9a-z.]+$/.test(req.query.imageFile)) 
         {   
@@ -23,6 +24,15 @@ module.exports = function(app)
                 var result = (new (require('../func/sqlManager'))).getImageInfo(req.session.user.username, req.query.imageFile);
                 imageName = result[0].image_name;
                 imageDec = result[0].image_dec;
+                if(Number(result[0].image_share) == 0)
+                {
+                    shareLog = `<li> <a href="/editImage?qtype=share&imageFile=${imageFileName}" style="color:blueviolet"> [ 커뮤니티에 공개하기 ] </a> 
+                    <p style="color:blueviolet; font-size:x-large; text-align:left"> ▲ 이미지를 Smarge 커뮤니티에 공개해서 누구나 볼 수 있도록 합니다. (한번 공개되면 취소가 불가능합니다.) </p> </li>`;
+                } 
+                else
+                {
+                    shareLog = `<p style="color:blueviolet; font-size:x-large; text-align:left"> ◈ 이미지가 커뮤니티에 공개되었습니다. </p>`;
+                }
             }
             else
             {
@@ -66,6 +76,14 @@ module.exports = function(app)
             return ;
         }
 
+        // 이미지 공유 요청인 경우
+        if(req.query.qtype && req.query.qtype=='share')
+        {
+            (new (require('../func/sqlManager'))).shareImage(req.query.imageFile);
+            shareLog = `<p style="color:blueviolet; font-size:x-large; text-align:left"> ◈ 이미지가 커뮤니티에 공개되었습니다. </p>`
+        }
+
+
         var config = require("../func/config");
         var host = config.host;
 
@@ -107,7 +125,9 @@ module.exports = function(app)
     <li><textarea cols="63" rows="10" style="font-size: x-large" placeholder="이미지에 대한 설명을 입력하세요 !" name="imgDec">${imageDec}</textarea></li><br>
     <li><input type="submit" value="편집하기" style="font-size: x-large"></li>
     <li>이미지 공유 링크 : <br>
-    <a href="/showImage?imageFile=${imageFileName}"> http://${host}:3000/showImage?imageFile=${imageFileName} </a></li>
+    <a href="/showImage?imageFile=${imageFileName}"> http://${host}:3000/showImage?imageFile=${imageFileName} </a> </li>
+
+    ${shareLog}
 </form>
 </ul>
 ${errorLog}
